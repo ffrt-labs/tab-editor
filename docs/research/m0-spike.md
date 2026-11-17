@@ -5,17 +5,18 @@ Issue: [#1](https://github.com/ffrt-labs/tab-editor/issues/1). Date: 2026-11-17.
 
 ## Verdict
 
-**Conditional go → start M1 (Player)**, on two conditions:
+**Go → start M1 (Player).** Two follow-ups:
 
-- A person opens alphaTab's `.gp` output in TuxGuitar (and Guitar Pro if available) and it looks
-  right (2c). PRD §4 makes that the pass condition for item 2. If it fails, reopen PRD §3.3 instead.
+- The TuxGuitar / Guitar Pro open check (2c) is deferred to
+  [#19](https://github.com/ffrt-labs/tab-editor/issues/19). M1 only imports files, so it doesn't
+  need that check. #19 blocks saving as `.gp` (#14). If the check fails, reopen PRD §3.3 before #14.
 - M2 renders only the Track being edited (1). The < 100 ms target is met for one Track, not for
   every Track of a multi-track Score.
 
 | # | Question | Result | Call |
 |---|----------|--------|------|
 | 1 | Re-render after a one-note change, ~200 measures | 30–80 ms for one Track (the edit pane), 200–235 ms for all 9 Tracks. Partial re-render exists (`firstChangedMasterBar`) but only helps edits late in the Score. | Pass, if the editor renders one Track |
-| 2 | `.gp` (GP7) export and round-trip | Exporter exists. 345/345 files round-trip with no pitch or beat-timing changes. Some bends, automations and bar-line styling are lost. TuxGuitar check pending. | Pending: needs the TuxGuitar check |
+| 2 | `.gp` (GP7) export and round-trip | Exporter exists. 345/345 files round-trip with no pitch or beat-timing changes. Some bends, automations and bar-line styling are lost. TuxGuitar check pending. | Pass inside alphaTab; TuxGuitar check deferred to #19 |
 | 3 | What alphaTex cannot express | Close to lossless for notation in 1.9.0. Gaps are mostly playback and print metadata, plus one exporter bug (empty bars). | Pass |
 | 4 | Editing API | None: no cursor, selection, edit commands or undo. Has hit-testing, mouse events, model mutators and an alphaTex AST with source offsets. | As assumed in PRD §6 |
 
@@ -104,7 +105,7 @@ What is lost (files affected out of 345):
 These losses mostly hit GP3–5 imports. `.gpx` and `.gp` files come through almost untouched, and
 `.gpx` → `.gp` is the case PRD §3.3 cares about.
 
-### 2c. TuxGuitar / Guitar Pro: not done (needs a person)
+### 2c. TuxGuitar / Guitar Pro: deferred to [#19](https://github.com/ffrt-labs/tab-editor/issues/19)
 - TuxGuitar **2.1.1** (latest, 2026-10-23) includes a GP7 importer: the `tuxguitar-gpx.jar` plugin
   contains `app.tuxguitar.io.gpx.v7.GPXInputStreamPlugin`. It can open `.gp`, so PRD §6 item 3 is
   confirmed as far as the code goes. It has no GP7 exporter.
