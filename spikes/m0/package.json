@@ -1,0 +1,10 @@
+{
+  "name": "m0-spike",
+  "private": true,
+  "description": "Throwaway M0 spike scripts (issue #1). See docs/research/m0-spike.md.",
+  "type": "module",
+  "dependencies": {
+    "@coderline/alphatab": "^1.9.0",
+    "playwright-core": "^1.65.1"
+  }
+}
